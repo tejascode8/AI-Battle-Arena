@@ -39,6 +39,10 @@ AI-Battle-Arena/
        │   │   |    ├── ChatInterface.jsx → Main chat UI (input + messages handling)
        │   │   |    └── UserMessage.jsx   → Displays user messages
        │   │   |
+       │   │   ├── loader/ → Loading components
+       │   │   |    ├── Loader.css → Styling of loader
+       │   │   |    └── Loader.jsx   → Loading spinner animation
+       │   │   |
        │   │   ├── App.css   → Styling file (can include Tailwind or custom CSS)
        │   │   └── App.jsx   → Root component (combines all components)
        │   │

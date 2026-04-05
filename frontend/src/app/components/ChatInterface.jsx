@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import UserMessage from "./UserMessage.jsx";
 import ArenaResponse from "./ArenaResponse.jsx";
+import Loader from "../loader/Loader.jsx";
 import axios from "axios";
 
 const MOCK_RESPONSE = {
@@ -21,6 +22,7 @@ const MOCK_RESPONSE = {
 export default function ChatInterface() {
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState("");
+  const [loading, setLoading] = useState(false);
   const endOfMessagesRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -35,27 +37,43 @@ export default function ChatInterface() {
     e.preventDefault();
     if (!inputValue.trim()) return;
 
-    const repsonse = await axios.post("http://localhost:3000/invoke", {
-      input: inputValue,
-    });
+    setLoading(true);
+    try {
+      const response = await axios.post("http://localhost:3000/invoke", {
+        input: inputValue,
+      });
 
-    const data = repsonse.data;
+      const data = response.data;
+      console.log("Received response from backend:", data);
 
-    console.log("Received response from backend:", data);
+      const newMessage = {
+        id: Date.now(),
+        problem: inputValue,
+        // simulate the delay or instantly add dummy response
+        ...data.result,
+      };
 
-    const newMessage = {
-      id: Date.now(),
-      problem: inputValue,
-      // simulate the delay or instantly add dummy response
-      ...data.result,
-    };
-
-    setMessages([...messages, newMessage]);
-    setInputValue("");
+      setMessages([...messages, newMessage]);
+      setInputValue("");
+    } catch (error) {
+      console.error("Error sending message:", error);
+      // Optionally show an error message to the user
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="flex flex-col h-screen bg-zinc-50 dark:bg-zinc-950 font-sans">
+    <div className="flex flex-col h-screen bg-zinc-50 dark:bg-zinc-950 font-sans relative">
+      {loading && (
+        <Loader
+          fullScreen={true}
+          size="lg"
+          color="blue"
+          text="AI is thinking..."
+          className="z-50"
+        />
+      )}
       <header className="py-4 px-8 border-b border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md sticky top-0 z-10 flex justify-center">
         <h1 className="text-xl font-medium tracking-tight text-zinc-900 dark:text-zinc-50">
           AI Battle Arena
@@ -100,12 +118,13 @@ export default function ChatInterface() {
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               placeholder="Ask a coding question..."
-              className="w-full bg-zinc-100 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 border-none rounded-full py-4 pl-6 pr-16 focus:ring-2 focus:ring-blue-500 focus:outline-none placeholder-zinc-400 transition-shadow shadow-sm hover:shadow-md text-lg"
+              disabled={loading}
+              className="w-full bg-zinc-100 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 border-none rounded-full py-4 pl-6 pr-16 focus:ring-2 focus:ring-blue-500 focus:outline-none placeholder-zinc-400 transition-shadow shadow-sm hover:shadow-md text-lg disabled:opacity-70 disabled:cursor-not-allowed"
             />
             <button
               type="submit"
               className="absolute right-2 bg-blue-600 hover:bg-blue-700 text-white p-2.5 rounded-full transition-colors flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
-              disabled={!inputValue.trim()}
+              disabled={!inputValue.trim() || loading}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

@@ -1,0 +1,13 @@
+/* Custom spinner animation for smoother rotation */
+@keyframes spin-smooth {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin-smooth 0.8s linear infinite;
+}
