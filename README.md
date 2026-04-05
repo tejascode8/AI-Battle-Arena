@@ -70,6 +70,9 @@ AI-Battle-Arena/
   npm install highlight.js
   (Adds syntax highlighting for code blocks)
 
+  npm install axios
+  (Make HTTP requests(GET/POST) from app to fetch or send data to APIs)
+
 ```
 
 ### Usage Flow
@@ -168,13 +171,15 @@ Modify `tsconfig.json`:
 
 ```
   npm install dotenv
+  npm install langchain
   npm install @langchain/core
   npm install @langchain/google
   npm install @langchain/mistralai
   npm install @langchain/cohere
   npm install @langchain/langgraph
-  npm install langchain @langchain/core
   npm install zod
+  npm install cors
+  npm install @types/cors
 ```
 
 ### Configuration
