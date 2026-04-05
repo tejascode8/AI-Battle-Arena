@@ -27,10 +27,66 @@ AI-Battle-Arena/
 
 ```
 AI-Battle-Arena/
+  |
+  └── frontend/                → React app (UI part of project)
        |
-       └── frontend/
+       ├── node_modules/      → Installed packages
+       │
+       ├── src/               → Main source code folder
+       │   ├── app/           → App-level structure (components + styling)
+       │   │   ├── components/ → Reusable UI components
+       │   │   |    ├── ArenaResponse.jsx → Shows AI responses (Markdown + highlighted code)
+       │   │   |    ├── ChatInterface.jsx → Main chat UI (input + messages handling)
+       │   │   |    └── UserMessage.jsx   → Displays user messages
+       │   │   |
+       │   │   ├── App.css   → Styling file (can include Tailwind or custom CSS)
+       │   │   └── App.jsx   → Root component (combines all components)
+       │   │
+       │   └── main.jsx      → Entry point (renders App into DOM)
+       │
+       ├── index.html        → Main HTML file (root div for React)
+       ├── vite.config.js    → Vite configuration (plugins like React + Tailwind)
+       ├── package.json      → Project dependencies & scripts
+       ├── eslint.config.js  → Linting rules (code quality)
+       └── .gitignore        → Files/folders Git should ignore
 
 ```
+
+### Install
+
+```
+  npm create vite@latest .
+  (setup react with javaScript)
+
+  npm install tailwindcss @tailwindcss/vite
+  (Utility-first CSS framework (fast styling with classes) with vite)
+
+  npm install react-markdown
+  (Converts Markdown → React components)
+
+  npm install remark-gfm
+  (Adds GitHub-style features (tables, checkboxes, etc.))
+
+  npm install highlight.js
+  (Adds syntax highlighting for code blocks)
+
+```
+
+### Usage Flow
+
+```
+Start Project
+-> Run `npm run dev`
+
+```
+
+### References
+
+- Vite Setup: https://vite.dev/guide/
+- Tailwind CSS (Vite Install): https://tailwindcss.com/docs/installation/using-vite
+- React Markdown: https://github.com/remarkjs/react-markdown
+- Remark GFM: https://github.com/remarkjs/remark-gfm
+- Highlight.js GitHub: https://github.com/highlightjs/highlight.js
 
 ## Backend
 
